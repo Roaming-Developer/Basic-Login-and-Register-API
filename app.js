@@ -12,7 +12,13 @@ const auth = require("./middleware/auth");
 // Middlewares
 app.use(express.json());
 
-app.post("/register", async (req, res) => {
+app.get("/", async (req, res) => {
+  res.send(
+    'Link is meant for "POST" requests only. Please visit https://github.com/Roaming-Developer/Basic-Login-and-Register-API/ for more information'
+  );
+});
+
+app.post("/api/v1/register", async (req, res) => {
   // Register
   try {
     const { first_name, last_name, email, password } = req.body;
@@ -62,7 +68,7 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.post("/login", async (req, res) => {
+app.post("/api/v1/login", async (req, res) => {
   // Login
   try {
     const { email, password } = req.body;
