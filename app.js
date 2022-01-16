@@ -7,6 +7,8 @@ const express = require("express");
 const app = express();
 const User = require("./model/user");
 
+const auth = require("./middleware/auth");
+
 // Middlewares
 app.use(express.json());
 
@@ -88,6 +90,10 @@ app.post("/login", async (req, res) => {
   } catch (error) {
     console.error(error);
   }
+});
+
+app.post("/verifyToken", auth.verifyToken, (req, res, next) => {
+  res.status(200).send("Token is Working");
 });
 
 module.exports = app;
