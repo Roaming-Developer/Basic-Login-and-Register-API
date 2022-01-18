@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login and Register API with JWT</title>
+    <!-- CSS only -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+      * {
+        font-family: "Poppins", sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="bg-light">
+      <div class="container py-3">
+        <h3 class="h3 m-0">Login and Register API with JWT</h3>
+      </div>
+    </nav>
+    <main>
+      <section>
+        <div class="container py-3">
+          <div class="">
+            <!-- <h3 class="h3">Login and Register API with JWT</h3>
+            <hr /> -->
+            <p class="m-0">
+              A REST API build for registering and login a user. It uses the
+              Express for the routing, MongoDB as the database for storing the
+              fields of an user along with fetching the user infor for
+              authentication purpose, for the Authentication purpose we're using
+              JWT(JSON Web Token).
+            </p>
+          </div>
+
+          <div class="pt-4">
+            <h4 class="h4">Link for registering</h4>
+            <p class="mb-0">
+              <span class="fw-bolder">"POST"</span> Request to
+              <a href="<%= baseURL %>/register"><%= baseURL %>register</a>
+              with following fields
+            </p>
+            <pre><code style="color: darkred;">
+{
+    first_name: { type: String, default: null },
+    last_name: { type: String, default: null },
+    email: { type: String, unique: true },
+    password: { type: String },
+    token: { type: String },
+}
+                  </code></pre>
+          </div>
+
+          <div class="pt-4">
+            <h4 class="h4">Link for Login</h4>
+            <p class="mb-0">
+              <span class="fw-bolder">"POST"</span> Request to
+              <a href="<%= baseURL %>login"><%= baseURL %>login</a>
+              with following fields
+            </p>
+            <pre><code style="color: darkred;">
+{
+    email: "hello@raomingdeveloper.codes",
+    password: "password"  
+}
+                        </code></pre>
+          </div>
+          <p class="">
+            both requests made will send a response in a JSON format with user
+            details
+            <span class="fst-italic">
+              (limited to "first_name", "last_name", "email" and JW-Token)
+            </span>
+            with a default status code of
+            <span class="fw-bolder">"200 OK"</span>
+          </p>
+          <div class="pt-4">
+            <h4 class="h4">Login Flow Illustration</h4>
+            <img
+              class="img-fluid"
+              src="https://i.imgur.com/PsSSg8Z.png"
+              alt="Login Flow Illustration"
+            />
+          </div>
+          <div class="pt-4">
+            <h4 class="h4">Link for Verifying JW-Token</h4>
+            <p class="mb-0">
+              <span class="fw-bolder">"GET"</span> Request to
+              <a href="<%= baseURL %>verifyToken"><%= baseURL %>verifyToken</a>
+              with the acces token which was created during registering or login
+              procress
+            </p>
+            <img
+              class="img-fluid my-2"
+              src="https://i.imgur.com/hIZRYxp.png"
+              alt="Postman request with access token"
+            />
+          </div>
+          <div class="py-3">
+            <p class="m-0">
+              View complete
+              <a href="https://weshort.herokuapp.com/jE0UK"> source code</a>
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="py-4 bg-dark">
+      <div class="container text-center" style="color: #fff !important">
+        <p class="m-0">
+          Crafted by
+          <a
+            style="color: #fff !important"
+            href="https://roamingdeveloper.codes"
+            >Roaming Developer</a
+          >
+          | Contribute at
+          <a
+            style="color: #fff !important"
+            href="https://weshort.herokuapp.com/jE0UK"
+            ><i class="bi bi-github"></i> Github</a
+          >
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
