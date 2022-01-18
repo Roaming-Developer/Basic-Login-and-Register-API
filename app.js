@@ -2,6 +2,7 @@ require("dotenv").config();
 require("./config/database").connect();
 const bcrypt = require("bcryptjs/dist/bcrypt");
 const jwt = require("jsonwebtoken");
+var path = require("path");
 
 const express = require("express");
 const app = express();
@@ -11,11 +12,13 @@ const auth = require("./middleware/auth");
 
 // Middlewares
 app.use(express.json());
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
 
 app.get("/", async (req, res) => {
-  res.send(
-    'Link is meant for "POST" requests only. Please visit https://github.com/Roaming-Developer/Basic-Login-and-Register-API/ for more information'
-  );
+  res.render("index", {
+    baseURL: " https://demo-api-ex.herokuapp.com/api/v1/",
+  });
 });
 
 app.post("/api/v1/register", async (req, res) => {
@@ -49,20 +52,9 @@ app.post("/api/v1/register", async (req, res) => {
       password: encryptedPassword,
     });
 
-    const token = jwt.sign(
-      {
-        user_id: user._id,
-        email,
-      },
-      process.env.TOKEN_KEY,
-      {
-        expiresIn: "2h",
-      }
-    );
+    var token = await user.signToken();
 
-    user.token = token;
-
-    res.status(200).json(user);
+    return res.status(201).json({ user: user.userJSON(token) });
   } catch (err) {
     console.error(err);
   }
@@ -80,17 +72,13 @@ app.post("/api/v1/login", async (req, res) => {
       });
     }
     const user = await User.findOne({ email });
-    if (user && (await bcrypt.compare(password, user.password))) {
-      const token = jwt.sign(
-        { user_id: user._id, email },
-        process.env.TOKEN_KEY,
-        {
-          expiresIn: "2h",
-        }
-      );
 
-      user.token = token;
-      res.status(200).json(user);
+    if (!user) {
+      return res.status(400).json({ error: "Email Not Found" });
+    }
+    if (user && (await bcrypt.compare(password, user.password))) {
+      let token = await user.signToken();
+      return res.status(200).json({ user: user.userJSON(token) });
     }
     res.status(400).json({ warning: "Invalid Credential" });
   } catch (error) {
@@ -98,7 +86,7 @@ app.post("/api/v1/login", async (req, res) => {
   }
 });
 
-app.post("/verifyToken", auth.verifyToken, (req, res, next) => {
+app.get("/api/v1/verifyToken", auth.verifyToken, (req, res, next) => {
   res.status(200).send("Token is Working");
 });
 
